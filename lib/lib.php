@@ -201,7 +201,7 @@ function create_user($username, $email, $pass) {
     $pass_shellesc = escapeshellarg($pass);
     
     $ldap_create_res = shell_exec("sudo /usr/sbin/kadmin.local addprinc -pw $pass_shellesc $user_shellesc");
-    
+    $ldap_create_res = shell_exec("sudo /usr/sbin/ldapadduser $user_shellesc 10000");
     $user_db_esc = pg_escape_string($username);
     $email_db_esc = pg_escape_string($email);
     $result = pg_query($conn, "INSERT INTO userdata(username,email) VALUES('$user_db_esc','$email_db_esc')");

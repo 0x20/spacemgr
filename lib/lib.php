@@ -30,13 +30,10 @@ function update_password($username, $newpassword) {
     $user_param = escapeshellarg($username);
     $newpass_param = escapeshellarg($newpassword);
     
-    $result = shell_exec("sudo samba-tool user setpassword $user_param --newpassword=$newpass_param");
-    
-    if (trim($result) == 'Changed password OK') {
-        return true;
-    } else {
-        return false;
-    }
+    $result = shell_exec("sudo /usr/sbin/kadmin.local cpw -pw $newpass_param $user_param");
+
+    return true;
+
 }
 
 

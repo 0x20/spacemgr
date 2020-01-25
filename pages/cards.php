@@ -12,6 +12,9 @@ require_once('../lib/lib.php');
 $user = $_SESSION['user'];
 $navigation['cards'] = 'class="active"';
 require('../lib/header.php');
+
+$known_cards = get_access_cards_for_user($user);
+
 ?>
 <div class="container">
 <h1>Access Cards</h1>
@@ -27,21 +30,26 @@ require('../lib/header.php');
         </tr>
     </thead>
     <tbody>
+    <?php foreach($known_cards as $card) { ?>
         <tr>
-            <td>123456</td>
-            <td>TfL Oyster</td>
-            <td>2019-09-17 18:29</td>
-            <td><a href="#">Disable</a> <a href="#">Delete</a></td>
-        </tr>
-        <tr>
-            <td>654987 <br/>(disabled)
+            <td><?php echo $card['caid']; ?></td>
+            <td><?php echo $card['carddesc']; ?></td>
+            <td><?php echo $card['lastseen']; ?></td>
+            <td>
+                <?php if ($card['enabled'] == 't') { ?>
+                <a href="#">Disable</a>
+                <?php } else { ?>
+                <a href="#">Enable</a>
+                <?php }?>
+                <a href="#">Delete</a>
             </td>
-            <td>Uni Canteen Pass</td>
-            <td>2019-09-01 14:21</td>
-            <td><a href="#">Enable</a> <a href="#">Delete</a></td>
         </tr>
+    <?php }?>
     </tbody>
 </table>
+
+    <a href="#">Register new card</a>
+
 </div>
 <?php
 

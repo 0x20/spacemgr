@@ -208,3 +208,47 @@ function create_user($username, $email, $pass) {
         return false;
 
 }
+
+function get_access_cards_for_user($username) {
+    $conn = get_db_conn();
+    $user_esc = pg_escape_string($username);
+
+    $qresult = pg_query($conn, "SELECT caid, carddesc, lastseen, enabled FROM accesscards WHERE username='$user_esc'");
+    $fresult = array();
+
+    $res = pg_fetch_array($qresult);
+    while ($res != null) {
+        array_push($fresult, $res);
+        $res = pg_fetch_array($qresult);
+    }
+
+    return $fresult;
+}
+
+function disable_access_card_for_user($username, $caid) {
+
+}
+
+function delete_access_card_for_user($username, $caid) {
+
+}
+
+function add_access_card_for_user($username, $caid, $description) {
+
+}
+
+function get_all_known_active_cards() {
+    $conn = get_db_conn();
+
+    $qresult = pg_query("SELECT caid FROM accesscards WHERE enabled = true");
+
+    $fresult = array();
+
+    $res == pg_fetch_array($qresult);
+    while ($res != null) {
+        array_push($fresult, $res['caid']);
+        $res = pg_fetch_array($qresult);
+    }
+
+    return $fresult;
+}

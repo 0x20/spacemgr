@@ -200,18 +200,14 @@ function create_user($username, $email, $pass) {
     $user_shellesc = escapeshellarg($username);
     $pass_shellesc = escapeshellarg($pass);
     
-    $ldap_create_res = shell_exec("sudo samba-tool user create $user_shellesc $pass_shellesc");
+    $ldap_create_res = shell_exec("sudo /usr/sbin/kadmin.local addprinc -pw $pass_shellesc $user_shellesc");
     
-    if (strpos($ldap_create_res, 'created successfully') !== false) {
-        $user_db_esc = pg_escape_string($username);
-        $email_db_esc = pg_escape_string($email);
-        $result = pg_query($conn, "INSERT INTO userdata(username,email) VALUES('$user_db_esc','$email_db_esc')");
-        if ($result)
-            return true;
-        else
-            return false;
-    } else {
+    $user_db_esc = pg_escape_string($username);
+    $email_db_esc = pg_escape_string($email);
+    $result = pg_query($conn, "INSERT INTO userdata(username,email) VALUES('$user_db_esc','$email_db_esc')");
+    if ($result)
+        return true;
+    else
         return false;
-    }
-    return false;
+
 }

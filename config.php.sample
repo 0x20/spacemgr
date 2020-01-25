@@ -1,0 +1,19 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: friedkiwi
+ * Date: 18/02/2019
+ * Time: 19:03
+ */
+
+session_start();
+
+$CONFIG = array();
+
+$CONFIG["pg_user"] = "dbuser";
+$CONFIG["pg_pass"] = "dbpass";
+$CONFIG["pg_db"] = "dbname";
+$CONFIG["pg_host"] = "localhost";
+
+$CONFIG["REALM"] = "qseco.fr";
+$CONFIG["ALLOWED_CREATION_IPS"] = array("10.90.113.0/24", "44.144.145.0/24", "0.0.0.0/0");

@@ -226,15 +226,61 @@ function get_access_cards_for_user($username) {
 }
 
 function disable_access_card_for_user($username, $caid) {
+    $conn = get_db_conn();
 
+    $username_escaped = pg_escape_string($username);
+    $caid_escaped = pg_escape_string($caid);
+
+    $result = pg_query("UPDATE accesscards SET enabled=false WHERE caid = '$caid_escaped' AND username = '$username_escaped'");
+
+    if ($result)
+        return true;
+    else
+        return false;
 }
 
-function delete_access_card_for_user($username, $caid) {
+function enable_access_card_for_user($username, $caid) {
+    $conn = get_db_conn();
 
+    $username_escaped = pg_escape_string($username);
+    $caid_escaped = pg_escape_string($caid);
+
+    $result = pg_query("UPDATE accesscards SET enabled=true WHERE caid = '$caid_escaped' AND username = '$username_escaped'");
+
+    if ($result)
+        return true;
+    else
+        return false;
+}
+
+
+function delete_access_card_for_user($username, $caid) {
+    $conn = get_db_conn();
+
+    $username_escaped = pg_escape_string($username);
+    $caid_escaped = pg_escape_string($caid);
+
+    $result = pg_query("DELETE FROM accesscards WHERE caid = '$caid_escaped' AND username = '$username_escaped'");
+
+    if ($result)
+        return true;
+    else
+        return false;
 }
 
 function add_access_card_for_user($username, $caid, $description) {
+    $conn = get_db_conn();
 
+    $username_escaped = pg_escape_string($username);
+    $caid_escaped = pg_escape_string($caid);
+    $description_escaped = pg_escape_string($description);
+
+    $result = pg_query("INSERT INTO accesscards(username, caid, carddesc, lastseen, enabled) VALUES ('$username', '$caid', '$description', NOW(), true)");
+
+    if ($result)
+        return true;
+    else
+        return false;
 }
 
 function get_all_known_active_cards() {
@@ -244,11 +290,31 @@ function get_all_known_active_cards() {
 
     $fresult = array();
 
-    $res == pg_fetch_array($qresult);
+    $res = pg_fetch_array($qresult);
+    
     while ($res != null) {
         array_push($fresult, $res['caid']);
         $res = pg_fetch_array($qresult);
     }
 
+
     return $fresult;
+}
+
+function caid_exists($caid) {
+    $caid_escape = pg_escape_string($caid);
+
+    $caid_exists = false;
+    $conn = get_db_conn();
+
+    $result = pg_query("SELECT * FROM accesscards WHERE caid='$caid_escape'");
+
+    if($result) {
+        if ($row = pg_fetch_row($result)) {
+            $caid_exists = true;
+        }
+    }
+
+    pg_close($conn);
+    return $caid_exists;
 }

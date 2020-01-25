@@ -11,6 +11,11 @@
 require_once('../config.php');
 require_once('../lib/lib.php');
 
+if (!is_logged_in()) {
+    header('Location: login.php');
+    exit();
+}
+
 $caid = $_POST['caid'];
 $carddesc = $_POST['carddesc'];
 $user = $_SESSION['user'];

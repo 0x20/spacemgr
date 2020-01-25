@@ -291,7 +291,7 @@ function get_all_known_active_cards() {
     $fresult = array();
 
     $res = pg_fetch_array($qresult);
-    
+
     while ($res != null) {
         array_push($fresult, $res['caid']);
         $res = pg_fetch_array($qresult);

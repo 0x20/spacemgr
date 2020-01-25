@@ -9,6 +9,11 @@
 require_once('../config.php');
 require_once('../lib/lib.php');
 
+if (!is_logged_in()) {
+    header('Location: login.php');
+    exit();
+}
+
 $user = $_SESSION['user'];
 $navigation['cards'] = 'class="active"';
 require('../lib/header.php');

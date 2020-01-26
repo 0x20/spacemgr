@@ -30,6 +30,7 @@
             
             <li <?php echo($navigation['account']); ?>><a href="/pages/account.php">Credentials</a></li>
             <li <?php echo($navigation['cards']); ?>><a href="/pages/cards.php">Access Cards</a></li>
+            <li <?php echo($navigation['wifi']); ?>><a href="/pages/wifi.php">Wifi</a></li>
         </ul>
         <?php } ?>
         <ul class="nav navbar-nav navbar-right">
